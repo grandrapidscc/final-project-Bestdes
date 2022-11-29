@@ -1,6 +1,8 @@
-﻿namespace CIS129FinalProject.Models.Actions.Attacks;
+﻿using CIS129FinalProject.Interfaces;
 
-public class Fireball : ActionAbstract
+namespace CIS129FinalProject.Models.Actions.Attacks;
+
+public class Fireball : ActionAbstract, IAction
 {
     public override string Name { get; set; } = "Fireball";
 
@@ -12,4 +14,8 @@ public class Fireball : ActionAbstract
 
     public override int EffectResult { get; set; } = 5;
 
+    public void PerformAction()
+    {
+        throw new NotImplementedException();
+    }
 }
