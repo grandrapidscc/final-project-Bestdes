@@ -14,9 +14,10 @@ public class StageGenerator
         mStage = stage;
     }
 
-    public void GenerateStage()
+    public StageAbstract GenerateStage()
     {
         GenerateStageCoordinateSpace();
+        return mStage;
     }
 
     private void GenerateStageCoordinateSpace()

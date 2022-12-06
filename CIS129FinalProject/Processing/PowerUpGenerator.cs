@@ -1,20 +1,20 @@
-﻿using CIS129FinalProject.Models.EnemyModels;
+﻿using CIS129FinalProject.Models.Powerups;
 using CIS129FinalProject.Models.Stages;
 
 namespace CIS129FinalProject.Processing;
 
-public class EnemyGenerator
+public class PowerUpGenerator
 {
     private StageAbstract mStage;
     private Random mRandomGenerator;
 
-    public EnemyGenerator(StageAbstract stageAbstract)
+    public PowerUpGenerator(StageAbstract stageAbstract)
     {
         mStage = stageAbstract;
         mRandomGenerator = new Random();
     }
 
-    public StageAbstract GenerateEnemiesInStage()
+    public StageAbstract GeneratePowerUpsInStage()
     {
         foreach (var cSpace in mStage.CoordinateSpace)
         {
@@ -24,21 +24,21 @@ public class EnemyGenerator
                 mStage.EventDictionary[cSpace].isEventSet = true;
             }
         }
-        
+
         return mStage;
     }
-    
+
     private SpaceEvent DetermineSpaceEvent()
     {
-        return DetermineIfEnemyShouldBeAdded() 
-            ? new SpaceEvent(DetermineEnemyToAddToSpace()) 
+        return DetermineIfPowerUpShouldBeAdded() 
+            ? new SpaceEvent(DeterminePowerUpToAddToSpace()) 
             : new SpaceEvent();
     }
 
-    private bool DetermineIfEnemyShouldBeAdded()
+    private bool DetermineIfPowerUpShouldBeAdded()
     {
         var determinant = mRandomGenerator.Next(100);
-        if (determinant < 60)
+        if (determinant < 40)
         {
             return true;
         }
@@ -46,20 +46,14 @@ public class EnemyGenerator
         return false;
     }
 
-    private EnemyAbstract DetermineEnemyToAddToSpace()
+    private PowerupAbstract DeterminePowerUpToAddToSpace()
     {
         var determinant = mRandomGenerator.Next(100);
-        
-        if (determinant < 25)
-        {
-            return new Banshee();
-        }
-        
         if (determinant < 50)
         {
-            return new Orc();
+            return new HealthPotion();
         }
 
-        return new Goblin();
+        return new MagickaPotion();
     }
 }

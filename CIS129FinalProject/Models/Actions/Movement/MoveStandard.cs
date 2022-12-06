@@ -3,60 +3,48 @@ using CIS129FinalProject.Models.Actions.Attacks;
 
 namespace CIS129FinalProject.Models.Actions.Movement;
 
-public class MoveStandard : ActionAbstract, IAction
+public class MoveStandard : ActionAbstract
 {
-    public (int, int) mCurrentPosition;
-    
-    public override string Name { get; set; }
-    public override int MpCost { get; set; }
-    public override string Description { get; set; }
-    public override string EffectDescription { get; set; }
-    public override int EffectResult { get; set; }
+    public override string Name { get; set; } = "Move";
+    public override int MpCost { get; set; } = 0;
+    public override string Description { get; set; } = "Moving";
+    public override string EffectDescription { get; set; } = "Moved to a new space!";
+    public override int EffectResult { get; set; } = 0;
 
-    public void PerformAction()
-    {
-        throw new NotImplementedException();
-    }
-    
-    private void PerformMovement(MovementDirection movementDirection)
+    public (int, int) PerformMove(MovementDirection movementDirection, (int, int) currentPosition)
     {
         switch (movementDirection)
         {
             case MovementDirection.East:
-                MoveEast();
-                break;
+                return MoveEast(currentPosition);
             case MovementDirection.North:
-                MoveNorth();
-                break;
+                return MoveNorth(currentPosition);
             case MovementDirection.South:
-                MoveSouth();
-                break;
+                return MoveSouth(currentPosition);
             case MovementDirection.West:
-                MoveWest();
-                break;
+                return MoveWest(currentPosition);
         }
+
+        return (0, 0);
     }
 
-    private void MoveEast()
+    private (int, int) MoveEast((int, int) currentPostion)
     {
-        mCurrentPosition = (mCurrentPosition.Item1 + 1, mCurrentPosition.Item2);
+        return currentPostion = (currentPostion.Item1 + 1, currentPostion.Item2);
     }
     
-    private void MoveNorth()
+    private (int, int) MoveNorth((int, int) currentPostion)
     {
-        mCurrentPosition = (mCurrentPosition.Item1, mCurrentPosition.Item2 + 1);
+        return currentPostion = (currentPostion.Item1, currentPostion.Item2 + 1);
     }
     
-    private void MoveSouth()
+    private (int, int) MoveSouth((int, int) currentPostion)
     {
-        mCurrentPosition = (mCurrentPosition.Item1, mCurrentPosition.Item2 - 1);
+        return currentPostion = (currentPostion.Item1, currentPostion.Item2 - 1);
     }
     
-    private void MoveWest()
+    private (int, int) MoveWest((int, int) currentPostion)
     {
-        mCurrentPosition = (mCurrentPosition.Item1 - 1, mCurrentPosition.Item2);
+        return currentPostion = (currentPostion.Item1 - 1, currentPostion.Item2);
     }
-    
-    public void ValidateMovement() {}
-    
 }

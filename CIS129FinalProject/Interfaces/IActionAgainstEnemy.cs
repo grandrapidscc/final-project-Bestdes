@@ -3,8 +3,7 @@ using CIS129FinalProject.Models.EnemyModels;
 
 namespace CIS129FinalProject.Interfaces;
 
-public interface IAction
+public interface IActionAgainstEnemy
 {
-    void PerformAction();
-    void PerformActionAgainstPlayer(PlayerAbstract playerTargeted);
+    void PerformActionAgainstEnemy(EnemyAbstract enemyTargeted, PlayerAbstract player);
 }

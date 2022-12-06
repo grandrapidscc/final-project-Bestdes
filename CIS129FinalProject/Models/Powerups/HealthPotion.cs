@@ -6,10 +6,4 @@ public class HealthPotion : PowerupAbstract
     public override string Description { get; set; }
     public override int Effect { get; set; }
     public override string EffectDescription { get; set; }
-
-    public HealthPotion(string name, int effect)
-    {
-        Name = name;
-        Effect = effect;
-    }
 }
