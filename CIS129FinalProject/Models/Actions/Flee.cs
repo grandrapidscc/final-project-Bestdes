@@ -11,6 +11,8 @@ public class Flee : ActionAbstract
     public override string EffectDescription { get; set; } = "Has a chance of allowing the Wizert to escape.";
     public override int EffectResult { get; set; }
 
+    public bool WasFleeSuccessful = false;
+
     public override void PerformActionAgainstEnemy(EnemyAbstract enemyTargeted, PlayerAbstract playerTargeted)
     {
         var fleeMessageSuccess = $"{playerTargeted.Name} has successfully fled the battle!";
@@ -18,7 +20,9 @@ public class Flee : ActionAbstract
 
         base.PerformActionAgainstPlayer(playerTargeted);
 
-        var fleeMessage = DetermineIfFleeWasSuccessful(enemyTargeted) ? fleeMessageSuccess : fleeMessageFail;
+        bool wasFleeSuccessful = DetermineIfFleeWasSuccessful(enemyTargeted);
+        WasFleeSuccessful = wasFleeSuccessful;
+        var fleeMessage = wasFleeSuccessful ? fleeMessageSuccess : fleeMessageFail;
         Console.WriteLine(fleeMessage);
     }
 
@@ -29,7 +33,7 @@ public class Flee : ActionAbstract
         Random randomGenerator = new Random();
         var determinant = randomGenerator.Next(100);
 
-        if (chanceToFlee <= determinant)
+        if (chanceToFlee >= determinant)
         {
             return true;
         }

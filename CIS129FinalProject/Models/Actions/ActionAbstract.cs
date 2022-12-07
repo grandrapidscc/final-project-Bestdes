@@ -27,7 +27,7 @@ public abstract class ActionAbstract : IAction
         Console.WriteLine($"{EffectDescription}");
         
         enemyTargeted.HealthPoints -= EffectResult;
-        player.MP -= MpCost;
+        player.Mp -= MpCost;
         
         Console.WriteLine($"The {enemyTargeted.Name}'s {nameof(enemyTargeted.HealthPoints)} are now at {enemyTargeted.HealthPoints}!");
     }
@@ -39,7 +39,7 @@ public abstract class ActionAbstract : IAction
         Console.WriteLine($"Consumed {MpCost} MP!");
         Console.WriteLine($"{EffectDescription}");
         
-        playerTargeted.MP -= MpCost;
-        playerTargeted.HP += EffectResult;
+        playerTargeted.Mp -= MpCost;
+        playerTargeted.Hp += EffectResult;
     }
 }

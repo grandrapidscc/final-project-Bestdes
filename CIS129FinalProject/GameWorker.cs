@@ -1,4 +1,6 @@
-﻿using CIS129FinalProject.Models.Stages;
+﻿using CIS129FinalProject.GameSystems;
+using CIS129FinalProject.Models;
+using CIS129FinalProject.Models.Stages;
 using CIS129FinalProject.Processing;
 
 namespace CIS129FinalProject;
@@ -24,20 +26,24 @@ public class GameWorker
         var powerUpGenerator = new PowerUpGenerator(dungeonStage);
         dungeonStage = powerUpGenerator.GeneratePowerUpsInStage();
         
+        // Generate the SpaceEvent Descriptions
+        var descriptionGenerator = new SpaceEventDescriptionGenerator(dungeonStage);
+        dungeonStage = descriptionGenerator.GenerateSpaceEventDescriptions();
+        
         // Set the PlayerStartingLocation on the stage
+        PlayerAbstract wizert = new Wizert();
+        wizert.PlayerCurrentLocation = dungeonStage.PlayerStartingPosition;
         
+        // Create the ExploringSystem, BattleSystem, PowerUpSystem
+        ExploringSystem exploringSystem = new ExploringSystem(wizert, dungeonStage);
         
-        //Create the batteinterface from checking the stage lcation player is in
-        
-        // Create Beginning Game Script 
-        
-        // Create
-        
-        
+        // Create the Game Scripts
+
         while (isGameRunning)
         {
             // Run the Game!!!!
-            
+            isGameRunning = exploringSystem.Explore();
+
         }
     }
 }

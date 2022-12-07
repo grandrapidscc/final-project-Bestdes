@@ -7,30 +7,74 @@ namespace CIS129FinalProject.GameSystems;
 public class ExploringSystem
 {
     private PlayerAbstract mPlayer;
-    private StageAbstract mStage;
-    private MoveStandard mMovement;
-    private string mInput;
+    private readonly StageAbstract mStage;
+    private readonly MoveStandard mMovement;
+    private BattleSystem mBattleSystem;
+    private PowerUpSystem mPowerUpSystem;
+    private MovementDirection mMovementDirection;
 
     public ExploringSystem(PlayerAbstract player, StageAbstract stage)
     {
         mPlayer = player;
         mStage = stage;
         mMovement = new MoveStandard();
+        mBattleSystem = new BattleSystem(player, stage);
+        mPowerUpSystem = new PowerUpSystem(player, stage);
     }
 
-    public void GetInput(string input)
+    public bool Explore()
     {
-        mInput = input;
+        bool isGameActive = true;
+        
+        while (isGameActive)
+        {
+            Console.WriteLine(mStage.EventDictionary[mPlayer.PlayerCurrentLocation].SpaceDescription);
+
+            if (mBattleSystem.GetSpaceEventEnemy() is not null)
+            {
+                mBattleSystem.Battle();
+            }
+            
+            // PowerUpSystem Work
+            if (mPowerUpSystem.GetSpaceEventPowerUp(mPlayer.PlayerCurrentLocation) is not null)
+            {
+                mPowerUpSystem.ConsumePowerUp();
+            }
+
+            Console.WriteLine("Press...");
+            Console.WriteLine($"1. To go North");
+            Console.WriteLine($"2. To go South");
+            Console.WriteLine($"3. To go East");
+            Console.WriteLine($"4. To go West");
+            var exploreInput = InputTranslator.GetInput();
+            mMovementDirection = TranslateInputToMovementDirection(exploreInput);
+            MovePlayer();
+
+
+            if (mPlayer.PlayerCurrentLocation == mStage.StageExit)
+            {
+                Console.WriteLine($"You won the game and successfully navigated out of the {mStage.Name}!!!");
+                isGameActive = false;
+            }
+            
+            
+            if (exploreInput is GameInput.TheExitOption)
+            {
+                isGameActive = false;
+            }
+        }
+
+        return isGameActive;
     }
 
-    public void MovePlayer()
+        public void MovePlayer()
     {
         var currentLocation = mPlayer.PlayerCurrentLocation;
-        var newSpaceLocation = mMovement.PerformMove(TranslateInputToMovementDirection(mInput), currentLocation);
+        var newSpaceLocation = mMovement.PerformMove(mMovementDirection, currentLocation);
         
         if (ValidateIfPlayerMovementIsAllowed(newSpaceLocation))
         {
-            mMovement.PerformMove(TranslateInputToMovementDirection(mInput), mPlayer.PlayerCurrentLocation);
+            mPlayer.PlayerCurrentLocation = mMovement.PerformMove(mMovementDirection, mPlayer.PlayerCurrentLocation);
         }
     }
 
@@ -38,19 +82,21 @@ public class ExploringSystem
     {
         return mStage.CoordinateSpace.Contains(desiredNewLocation);
     }
-
-    private MovementDirection TranslateInputToMovementDirection(string input)
+    
+    private MovementDirection TranslateInputToMovementDirection(GameInput input)
     {
         switch (input)
         {
-            case "1":
+            case GameInput.TheFirstOption: 
                 return MovementDirection.North;
-            case "2":
+            case GameInput.TheSecondOption:
                 return MovementDirection.South;
-            case "3":
+            case GameInput.TheThirdOption:
                 return MovementDirection.East;
-            case "4":
-                return MovementDirection.South;
+            case GameInput.TheFourthOption:
+                return MovementDirection.West;
+            case GameInput.TheExitOption:
+                break;
         }
 
         return MovementDirection.None;

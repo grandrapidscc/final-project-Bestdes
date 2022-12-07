@@ -18,10 +18,11 @@ public class PowerUpGenerator
     {
         foreach (var cSpace in mStage.CoordinateSpace)
         {
-            if (mStage.EventDictionary[cSpace].isEventSet is false)
+            if (mStage.EventDictionary[cSpace].IsEventSet is false)
             {
-                mStage.EventDictionary.Add(cSpace, DetermineSpaceEvent());
-                mStage.EventDictionary[cSpace].isEventSet = true;
+                mStage.EventDictionary[cSpace] = DetermineSpaceEvent();
+                mStage.EventDictionary[cSpace].SpaceEventType = SpaceEventType.PowerUpEvent;
+                mStage.EventDictionary[cSpace].IsEventSet = true;
             }
         }
 

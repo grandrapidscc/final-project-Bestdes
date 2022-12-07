@@ -1,9 +1,14 @@
-﻿namespace CIS129FinalProject.Models;
+﻿using CIS129FinalProject.Models.Actions;
+using CIS129FinalProject.Models.Actions.Attacks;
 
-public class PlayerAbstract
+namespace CIS129FinalProject.Models;
+
+public abstract class PlayerAbstract
 {
-    public string Name { get; set; }
-    public int HP { get; set; } = 100;
-    public int MP { get; set; } = 200;
-    public (int, int) PlayerCurrentLocation { get; set; }
+    public abstract string Name { get; set; }
+    public abstract int Hp { get; set; }
+    public abstract int Mp { get; set; }
+    public abstract (int, int) PlayerCurrentLocation { get; set; }
+    public abstract Dictionary<int, ActionAbstract> ActionCollection { get; set; }
+    
 }

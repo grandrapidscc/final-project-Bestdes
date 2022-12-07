@@ -6,7 +6,7 @@ namespace CIS129FinalProject.Processing;
 public class EnemyGenerator
 {
     private StageAbstract mStage;
-    private Random mRandomGenerator;
+    private readonly Random mRandomGenerator;
 
     public EnemyGenerator(StageAbstract stageAbstract)
     {
@@ -18,10 +18,9 @@ public class EnemyGenerator
     {
         foreach (var cSpace in mStage.CoordinateSpace)
         {
-            if (mStage.EventDictionary[cSpace].isEventSet is false)
+            if (mStage.EventDictionary[cSpace].IsEventSet is false)
             {
-                mStage.EventDictionary.Add(cSpace, DetermineSpaceEvent());
-                mStage.EventDictionary[cSpace].isEventSet = true;
+                mStage.EventDictionary[cSpace] = DetermineSpaceEvent();
             }
         }
         
@@ -31,7 +30,11 @@ public class EnemyGenerator
     private SpaceEvent DetermineSpaceEvent()
     {
         return DetermineIfEnemyShouldBeAdded() 
-            ? new SpaceEvent(DetermineEnemyToAddToSpace()) 
+            ? new SpaceEvent(DetermineEnemyToAddToSpace())
+            {
+                SpaceEventType = SpaceEventType.EnemyEvent,
+                IsEventSet = true
+            } 
             : new SpaceEvent();
     }
 
