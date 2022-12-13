@@ -1,2 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+
+using CIS129FinalProject;
+using CIS129FinalProject.Models.Actions;
+
+GameWorker gameWorker = new GameWorker();
+gameWorker.RunGame();
